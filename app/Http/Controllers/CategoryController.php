@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Resources\CategoryResource;
 class CategoryController extends Controller
 {
     /**
@@ -14,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::latest()->get();
+        return CategoryResource::collection(Category::latest()->get());
     }
 
     /**
@@ -25,7 +26,6 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $category = new Category;
         $category->name = $request->name;
         $category->slug = str_slug($request->name);
@@ -41,18 +41,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return $category;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
+        return new CategoryResource($category);
     }
 
     /**
