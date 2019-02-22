@@ -59,7 +59,7 @@ class CategoryController extends Controller
                 'slug'=>str_slug($request->name)
             ]
         );
-        return response()->json('updated', 202);
+        return response('Updated', Response::HTTP_CREATED);
     }
 
     /**
