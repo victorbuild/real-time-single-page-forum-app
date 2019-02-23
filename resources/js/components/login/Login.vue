@@ -20,6 +20,10 @@
         color="green"
         type="submit"
     >登入</v-btn>
+
+    <router-link to="/signup">
+        <v-btn color="blue">註冊</v-btn>
+    </router-link>
   </form>
 </v-container>
 
@@ -32,6 +36,11 @@ export default {
                 email:null,
                 password:null
             }
+        }
+    },
+    created(){
+        if(User.loggedIn()){
+            this.$router.push({name:'forum'});
         }
     },
     methods:{

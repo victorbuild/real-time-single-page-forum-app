@@ -3,19 +3,37 @@
             <v-toolbar-title>Victor</v-toolbar-title>
             <v-spacer></v-spacer>
             <div class="hidden-sm-and-down">
-                <v-btn flat>討論區</v-btn>
-                <v-btn flat>發問</v-btn>
-                <v-btn flat>分類</v-btn>
-                <router-link to="/login">
-                    <v-btn flat>登入</v-btn>
+
+                <router-link
+                v-for="item in items"
+                :key="item.title"
+                :to="item.to"
+                v-if="item.show">
+                    <v-btn flat>{{item.title}}</v-btn>
                 </router-link>
+
             </div>
     </v-toolbar>
 </template>
 
 <script>
 export default {
-
+    data(){
+        return {
+            items: [
+                {title : '討論區' , to:'/forum',show:true},
+                {title : '發問' , to:'/ask',show: User.loggedIn()},
+                {title : '分類' , to:'/category',show: User.loggedIn()},
+                {title : '登入' , to:'/login',show: !User.loggedIn()},
+                {title : '登出' , to:'/logout',show: User.loggedIn()},
+            ]
+        }
+    },
+    created(){
+        EventBus.$on('logout',() => {
+            User.logout()
+        })
+    }
 }
 </script>
 
