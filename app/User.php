@@ -40,7 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail,JWTSubject
 
     public function question()
     {
-        return $this->hasMony(Question::class);
+        return $this->hasMany(Question::class);
     }
     // Rest omitted for brevity
 
