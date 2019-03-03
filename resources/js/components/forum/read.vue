@@ -8,15 +8,21 @@
             v-else
             :data="question"
         ></show-question>
+
+        <replies :question="question"></replies>
+
+        <new-reply :questionSlug="question.slug"></new-reply>
     </v-container>
 </template>
 
 <script>
 import ShowQuestion from './ShowQuestion';
 import EditQuestion from './editQuestion';
+import Replies from '../reply/replies';
+import NewReply from '../reply/newReply';
 
 export default {
-    components:{ShowQuestion,EditQuestion},
+    components:{ShowQuestion,EditQuestion,Replies,NewReply},
     data(){
         return {
             question:null,

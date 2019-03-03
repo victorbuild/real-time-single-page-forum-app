@@ -23,7 +23,7 @@ export default {
             items: [
                 {title : '討論區' , to:'/forum',show:true},
                 {title : '發問' , to:'/ask',show: User.loggedIn()},
-                {title : '分類' , to:'/category',show: User.loggedIn()},
+                {title : '分類' , to:'/category',show: User.admin()},
                 {title : '登入' , to:'/login',show: !User.loggedIn()},
                 {title : '登出' , to:'/logout',show: User.loggedIn()},
             ]
