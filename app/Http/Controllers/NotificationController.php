@@ -9,9 +9,11 @@ class NotificationController extends Controller
 {
     public function index()
     {
+      $read = auth()->user()->readNotifications()->get()==null ? []:NotificationResource::collection(auth()->user()->readNotifications()->get());
+      $unread = auth()->user()->unreadNotifications()->get()==null ? []:NotificationResource::collection(auth()->user()->unreadNotifications()->get());
       return [
-        'read' =>  NotificationResource::collection(auth()->user()->readNotifications()->get()),
-        'unread' => NotificationResource::collection(auth()->user()->unreadNotifications()->get())
+        'read' =>  $read,
+        'unread' => $unread
       ];
     }
 
