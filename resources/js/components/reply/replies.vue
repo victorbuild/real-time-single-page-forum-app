@@ -37,9 +37,9 @@ export default {
       });
 
       Echo.private('App.User.' + User.id())
-      .notification((notification) => {
-          this.content.unshift(notification.reply);
-      });
+          .notification((notification) => {
+              this.content.unshift(notification.reply);
+          });
 
       Echo.channel('deleteReplyChannel')
           .listen('DeleteReplyEvent',(e)=>{
