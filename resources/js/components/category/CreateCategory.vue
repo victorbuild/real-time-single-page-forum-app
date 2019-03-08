@@ -1,13 +1,20 @@
 <template>
   <v-container>
+    <v-alert
+      v-if="errors"
+      :value="true"
+      type="error"
+    >
+      請輸入分類名稱
+    </v-alert>
     <v-form @submit.prevent="submit">
       <v-text-field
         v-model="form.name"
         label="分類名稱"
         required
       ></v-text-field>
-      <v-btn type="submit" color="pink" v-if="editSlug">更新</v-btn>
-      <v-btn type="submit" color="teal" v-else>新增</v-btn>
+      <v-btn type="submit" color="pink" :disabled="disable" v-if="editSlug">更新</v-btn>
+      <v-btn type="submit" color="teal" :disabled="disable" v-else>新增</v-btn>
     </v-form>
       <v-card>
           <v-toolbar color="indigo" dark dense>
@@ -51,7 +58,8 @@ export default {
         name:null
       },
       categories:{},
-      editSlug:null
+      editSlug:null,
+      errors:null
     }
   },
   created(){
@@ -73,6 +81,7 @@ export default {
         this.categories.unshift(res.data)
         this.form.name = null
       })
+      .catch(error => this.errors = error.response.data.errors)
     },
     update(){
       axios.patch(`/api/category/${this.editSlug}`,this.form)
@@ -89,6 +98,11 @@ export default {
     destroy(slug,index){
       axios.delete(`/api/category/${slug}`)
       .then(res => this.categories.splice(index,1))
+    }
+  },
+  computed:{
+    disable(){
+      return !this.form.name;
     }
   }
 }
