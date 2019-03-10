@@ -1846,7 +1846,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       read: {},
       unread: {},
-      unreadCount: 0
+      unreadCount: 0,
+      sound: 'http://realtime.test/sound/notification.mp3'
     };
   },
   created: function created() {
@@ -1857,6 +1858,8 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     Echo.private('App.User.' + User.id()).notification(function (notification) {
+      _this.palySound();
+
       _this.unread.unshift(notification);
 
       _this.unreadCount++;
@@ -1868,6 +1871,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    palySound: function palySound() {
+      var alert = new Audio(this.sound);
+      alert.play();
+    },
     getNotifications: function getNotifications() {
       var _this2 = this;
 
@@ -83377,7 +83384,7 @@ var defaultMenuProps = __assign({}, _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1_
         },
         filteredItems: function filteredItems() {
             var _this = this;
-            if (!this.isSearching || this.noFilter || this.internalSearch == null) return this.allItems;
+            if (!this.isSearching || this.returnObject && this.internalSearch === this.getText(this.selectedItem) || this.noFilter || this.internalSearch == null) return this.allItems;
             return this.allItems.filter(function (item) {
                 return _this.filter(item, _this.internalSearch.toString(), _this.getText(item).toString());
             });
@@ -83398,8 +83405,7 @@ var defaultMenuProps = __assign({}, _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1_
             return this.searchIsDirty || this.selectedItems.length > 0;
         },
         isSearching: function isSearching() {
-            if (this.multiple) return this.searchIsDirty;
-            return this.searchIsDirty && this.internalSearch !== this.getText(this.selectedItem);
+            return this.searchIsDirty;
         },
         menuCanShow: function menuCanShow() {
             if (!this.isFocused) return false;
@@ -84556,7 +84562,7 @@ var __assign = undefined && undefined.__assign || function () {
             props: __assign({}, this.$props, { start: start.date, end: end.date, maxDays: maxDays }),
             on: __assign({}, this.$listeners, { 'click:date': function clickDate(day) {
                     if (_this.$listeners['input']) {
-                        _this.$emit('input', day);
+                        _this.$emit('input', day.date);
                     }
                     if (_this.$listeners['click:date']) {
                         _this.$emit('click:date', day);
@@ -95912,7 +95918,8 @@ var __assign = undefined && undefined.__assign || function () {
     render: function render(h) {
         var data = {
             class: this.classes,
-            style: this.styles
+            style: this.styles,
+            on: this.$listeners
         };
         return h(this.tag, this.setBackgroundColor(this.color, data), this.$slots.default);
     }
@@ -102035,7 +102042,7 @@ var Vuetify = {
             return false;
         })(opts.components);
     },
-    version: '1.5.2'
+    version: '1.5.3'
 };
 function checkVueVersion(Vue, requiredVue) {
     var vueDep = requiredVue || '^2.5.18';
@@ -103759,7 +103766,7 @@ var Vuetify = {
         Vue.use(_components_Vuetify__WEBPACK_IMPORTED_MODULE_1__["default"], __assign({ components: _components__WEBPACK_IMPORTED_MODULE_2__,
             directives: _directives__WEBPACK_IMPORTED_MODULE_3__["default"] }, args));
     },
-    version: '1.5.2'
+    version: '1.5.3'
 };
 if (typeof window !== 'undefined' && window.Vue) {
     window.Vue.use(Vuetify);
@@ -104790,10 +104797,17 @@ function validateAttachTarget(val) {
         this.isActive = false;
     },
     beforeDestroy: function beforeDestroy() {
-        if (!this.$refs.content) return;
         // IE11 Fix
         try {
-            this.$refs.content.parentNode.removeChild(this.$refs.content);
+            if (this.$refs.content) {
+                this.$refs.content.parentNode.removeChild(this.$refs.content);
+            }
+            if (this.activatorNode) {
+                var activator = Array.isArray(this.activatorNode) ? this.activatorNode : [this.activatorNode];
+                activator.forEach(function (node) {
+                    node.elm && node.elm.parentNode.removeChild(node.elm);
+                });
+            }
         } catch (e) {
             console.log(e);
         }
@@ -110768,8 +110782,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laravel\uwamp\www\realtimeApp\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laravel\uwamp\www\realtimeApp\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/victor/Code/realtimeApp/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/victor/Code/realtimeApp/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

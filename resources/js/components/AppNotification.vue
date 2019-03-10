@@ -28,7 +28,8 @@ export default {
     return {
       read : {},
       unread : {},
-      unreadCount : 0
+      unreadCount : 0,
+      sound:'http://realtime.test/sound/notification.mp3'
     }
   },
   created(){
@@ -37,8 +38,9 @@ export default {
     }
     Echo.private('App.User.' + User.id())
       .notification((notification) => {
-          this.unread.unshift(notification);
-          this.unreadCount++;
+        this.palySound();
+        this.unread.unshift(notification);
+        this.unreadCount++;
       });
   },
   computed:{
@@ -47,6 +49,10 @@ export default {
     }
   },
   methods:{
+    palySound(){
+      let alert = new Audio(this.sound);
+      alert.play();
+    },
     getNotifications(){
       axios.post('/api/notifications')
       .then(res =>{
